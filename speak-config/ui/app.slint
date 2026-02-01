@@ -1,0 +1,68 @@
+import { Button, VerticalBox, ComboBox, HorizontalBox, LineEdit } from "std-widgets.slint";
+
+export component AppWindow inherits Window {
+    title: "Speak MCP Configuration";
+    width: 500px;
+    height: 250px;
+
+    in-out property <[string]> voicevox_model: ["Loading..."];
+    in-out property <int> voicevox_index: 0;
+    
+    in-out property <[string]> aivis_model: ["Loading..."];
+    in-out property <int> aivis_index: 0;
+    
+    in-out property <string> status_message: "Ready";
+    
+    callback save_config(int, int); 
+    callback refresh_speakers();
+
+    VerticalBox {
+        Text {
+            text: "VOICEVOX";
+            font-size: 13px;
+        }
+        HorizontalBox {
+            alignment: start;
+            ComboBox {
+                model: root.voicevox_model;
+                current-index <=> root.voicevox_index;
+                width: 200px;
+            }
+        }
+
+        Rectangle { height: 10px; }
+
+        Text {
+            text: "Aivis Speech";
+            font-size: 13px;
+        }
+        HorizontalBox {
+            alignment: start;
+            ComboBox {
+                model: root.aivis_model;
+                current-index <=> root.aivis_index;
+                width: 200px;
+            }
+        }
+
+        HorizontalBox {
+            alignment: end;
+            Button {
+                text: "Refresh";
+                clicked => { root.refresh_speakers(); }
+            }
+            Button {
+                text: "Save Settings";
+                primary: true;
+                clicked => { 
+                    root.save_config(root.voicevox_index, root.aivis_index); 
+                }
+            }
+        }
+        
+        Text {
+            text: root.status_message;
+            horizontal-alignment: center;
+        }
+    }
+}
