@@ -1,0 +1,5 @@
+target/
+BLOG/
+*.dmg
+*.zip
+.DS_Store
